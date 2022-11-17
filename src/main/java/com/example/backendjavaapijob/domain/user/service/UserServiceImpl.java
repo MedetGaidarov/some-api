@@ -11,7 +11,7 @@ public class UserServiceImpl implements UserService{
         User user = new User();
         user.setUsername("mgaidarov");
         user.setEmail("mgaiidarov@gmail.com");
-        user.setId(1111L);
+        user.setId(1L);
         return user;
     }
 }
