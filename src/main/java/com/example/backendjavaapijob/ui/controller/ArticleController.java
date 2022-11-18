@@ -33,7 +33,6 @@ public class ArticleController {
     {
         try
         {
-
             return ResponseEntity.ok(new DefaultResponseDto("Success", "Article succesfully created", articleService.createArticle(articleRequest)));
 
         }catch (Exception e)

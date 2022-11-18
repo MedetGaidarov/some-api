@@ -8,6 +8,7 @@ import com.example.backendjavaapijob.domain.user.service.UserService;
 import com.example.backendjavaapijob.ui.dto.article.request.ArticleRequest;
 import com.example.backendjavaapijob.ui.dto.article.response.ArticleDto;
 import com.example.backendjavaapijob.ui.dto.mapper.ArticleMapper;
+import javassist.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,12 +43,12 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public ArticleDto createArticle(ArticleRequest articleRequest) {
+    public ArticleDto createArticle(ArticleRequest articleRequest) throws NotFoundException {
 
-        User author = userService.getUserById(1L);
+        Optional<User> author = userService.findById(1L);
 
         Article article = new Article();
-        article.setAuthor(author);
+        author.ifPresent(article::setAuthor);
         article.setContent(articleRequest.getContent());
         article.setTitle(articleRequest.getTitle());
         article.setPublish_date(articleRequest.getPublish_date());
