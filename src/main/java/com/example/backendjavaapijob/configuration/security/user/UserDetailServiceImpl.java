@@ -24,6 +24,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
         try {
 
             Optional<User> user = userService.findByUsername(username);
+
             if (user.isPresent())
                 return UserDetailsImpl.build(user.get());
 

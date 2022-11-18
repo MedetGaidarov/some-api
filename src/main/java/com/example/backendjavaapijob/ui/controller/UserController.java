@@ -1,6 +1,7 @@
 package com.example.backendjavaapijob.ui.controller;
 
 
+import com.example.backendjavaapijob.domain.user.model.User;
 import com.example.backendjavaapijob.domain.user.model.UserType;
 import com.example.backendjavaapijob.domain.user.service.UserService;
 import com.example.backendjavaapijob.ui.dto.DefaultResponseDto;
@@ -29,11 +30,9 @@ public class UserController {
     private UserMapper userMapper;
 
 
-    @RolesAllowed(UserType.ADMIN)
     @PostMapping()
     public ResponseEntity<Object> createUser(@RequestBody UserDto userDto) {
         try {
-
             return ResponseEntity.ok(new DefaultResponseDto("SUCCESS", "User successfully created", userService.save(userMapper.toUser(userDto))));
         } catch (Exception e) {
             return ResponseEntity.ok(new DefaultResponseDto("FAULT", e.getMessage()));

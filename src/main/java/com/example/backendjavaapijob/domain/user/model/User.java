@@ -27,6 +27,10 @@ public class User {
     @Column(name = "username" , nullable = false, unique = true)
     private String username;
 
+    public User(String username)
+    {
+        this.username = username;
+    }
 
     @ManyToMany
     @JoinTable(

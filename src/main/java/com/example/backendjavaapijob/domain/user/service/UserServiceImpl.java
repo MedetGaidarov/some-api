@@ -40,6 +40,7 @@ public class UserServiceImpl implements UserService {
 
 
         Optional<User> user = userRepository.findByUsername(username);
+
         if (user.isEmpty()) {
             throw new NotFoundException(String.format("User with username %s not found", user));
         }

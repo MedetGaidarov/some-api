@@ -26,7 +26,7 @@ public class Article {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinTable(name = "author_id")
+    @JoinColumn(name = "author_id")
     public User author;
 
     @Column(name = "content")
