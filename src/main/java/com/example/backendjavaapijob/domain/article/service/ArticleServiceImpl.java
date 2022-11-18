@@ -5,12 +5,14 @@ import com.example.backendjavaapijob.domain.article.model.Article;
 import com.example.backendjavaapijob.domain.article.repository.ArticleRepository;
 import com.example.backendjavaapijob.domain.user.model.User;
 import com.example.backendjavaapijob.domain.user.service.UserService;
+import com.example.backendjavaapijob.infrastructure.utils.DateUtil;
 import com.example.backendjavaapijob.ui.dto.article.request.ArticleRequest;
 import com.example.backendjavaapijob.ui.dto.article.response.ArticleDto;
 import com.example.backendjavaapijob.ui.dto.mapper.ArticleMapper;
 import javassist.NotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,13 +47,13 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public ArticleDto createArticle(ArticleRequest articleRequest) throws NotFoundException {
 
-        Optional<User> author = userService.findById(1L);
+        Optional<User> author = userService.findByUsername("mgaidarov");
 
         Article article = new Article();
         author.ifPresent(article::setAuthor);
         article.setContent(articleRequest.getContent());
         article.setTitle(articleRequest.getTitle());
-        article.setPublish_date(articleRequest.getPublish_date());
+        article.setPublish_date(DateUtil.parseDateToIso(new Date()));
         return articleMapper.toArticleDto(articleRepository.save(article));
     }
 }

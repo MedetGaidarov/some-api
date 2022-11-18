@@ -18,5 +18,4 @@ public class ArticleRequest {
 
     String content;
 
-    Date publish_date;
 }

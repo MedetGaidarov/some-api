@@ -2,6 +2,7 @@ package com.example.backendjavaapijob.domain.article.model;
 
 
 import com.example.backendjavaapijob.domain.user.model.User;
+import com.example.backendjavaapijob.infrastructure.utils.DateUtil;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,7 +34,8 @@ public class Article {
     private String content;
 
     @Column(name = "publish_date")
-    private Date publish_date;
+    private String publish_date;
+
 
 
 }
