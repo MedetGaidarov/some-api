@@ -54,6 +54,7 @@ public class ArticleServiceImpl implements ArticleService {
         article.setContent(articleRequest.getContent());
         article.setTitle(articleRequest.getTitle());
         article.setPublish_date(DateUtil.parseDateToIso(new Date()));
+
         return articleMapper.toArticleDto(articleRepository.save(article));
     }
 }
