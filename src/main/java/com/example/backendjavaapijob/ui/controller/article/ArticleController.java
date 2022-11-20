@@ -1,4 +1,4 @@
-package com.example.backendjavaapijob.ui.controller;
+package com.example.backendjavaapijob.ui.controller.article;
 
 
 import com.example.backendjavaapijob.domain.article.service.ArticleService;
@@ -18,6 +18,12 @@ public class ArticleController {
 
     @Autowired
     private ArticleService articleService;
+
+    @GetMapping
+    public ResponseEntity<Object> getAllArticles()
+    {
+        return ResponseEntity.ok(articleService.findAll());
+    }
 
     @GetMapping("{id}")
     public ResponseEntity<Object> getArticle(@RequestParam Long id) {

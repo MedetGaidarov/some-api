@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 
@@ -15,6 +16,6 @@ public class ArticleDto {
     Long id;
     String title;
     String content;
-    String publish_date;
+    LocalDateTime publish_date;
 
 }

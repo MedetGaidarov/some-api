@@ -1,8 +1,6 @@
-package com.example.backendjavaapijob.ui.controller;
+package com.example.backendjavaapijob.ui.controller.user;
 
 
-import com.example.backendjavaapijob.domain.user.model.User;
-import com.example.backendjavaapijob.domain.user.model.UserType;
 import com.example.backendjavaapijob.domain.user.service.UserService;
 import com.example.backendjavaapijob.ui.dto.DefaultResponseDto;
 import com.example.backendjavaapijob.ui.dto.mapper.UserMapper;
@@ -11,10 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.security.RolesAllowed;
 
 @RestController
 @RequestMapping("api/user")

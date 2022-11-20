@@ -2,13 +2,18 @@ package com.example.backendjavaapijob.domain.article.model;
 
 
 import com.example.backendjavaapijob.domain.user.model.User;
+import com.example.backendjavaapijob.infrastructure.converter.LocalDateTimeAttributeConverter;
 import com.example.backendjavaapijob.infrastructure.utils.DateUtil;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -25,16 +30,19 @@ public class Article {
     @Column(name = "title", length = 100)
     private String title;
 
-
+    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id")
+    @JsonIgnore
     public User author;
 
     @Column(name = "content")
     private String content;
 
     @Column(name = "publish_date")
-    private String publish_date;
+    @Convert(converter = LocalDateTimeAttributeConverter.class)
+    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm'Z'")
+    private LocalDateTime publish_date;
 
 
 
