@@ -2,6 +2,7 @@ package com.example.backendjavaapijob.ui.controller.article;
 
 
 import com.example.backendjavaapijob.domain.article.service.ArticleService;
+import com.example.backendjavaapijob.infrastructure.utils.DateUtil;
 import com.example.backendjavaapijob.ui.dto.DefaultResponseDto;
 import com.example.backendjavaapijob.ui.dto.article.request.ArticleRequest;
 import org.slf4j.Logger;
@@ -9,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
 
 @RestController
 @RequestMapping("api/article")
@@ -47,6 +50,12 @@ public class ArticleController {
         }
     }
 
-
-
+    @GetMapping()
+    public ResponseEntity<Object> getArticle(@RequestBody Date date) {
+        try {
+            return ResponseEntity.ok(new DefaultResponseDto("SUCCESS", "Article successfully found", articleService.getArticleByDate(date)));
+        } catch (Exception e) {
+            return ResponseEntity.ok(new DefaultResponseDto("FAULT", e.getMessage()));
+        }
+    }
 }

@@ -13,6 +13,7 @@ import javassist.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,8 +56,15 @@ public class ArticleServiceImpl implements ArticleService {
         author.ifPresent(article::setAuthor);
         article.setContent(articleRequest.getContent());
         article.setTitle(articleRequest.getTitle());
-        article.setPublish_date(LocalDateTime.now());
+        article.setPublish_date(new Date());
 
         return articleMapper.toArticleDto(articleRepository.save(article));
     }
+
+    @Override
+    public Optional<Article> getArticleByDate(Date date) {
+        return articleRepository.getsArticleByPublish_date(date);
+    }
+
+
 }

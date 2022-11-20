@@ -16,6 +16,6 @@ public class ArticleDto {
     Long id;
     String title;
     String content;
-    LocalDateTime publish_date;
+    Date publish_date;
 
 }

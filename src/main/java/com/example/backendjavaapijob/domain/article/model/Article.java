@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -40,9 +39,8 @@ public class Article {
     private String content;
 
     @Column(name = "publish_date")
-    @Convert(converter = LocalDateTimeAttributeConverter.class)
-    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm'Z'")
-    private LocalDateTime publish_date;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date publish_date;
 
 
 
