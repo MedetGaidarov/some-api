@@ -30,10 +30,9 @@ public class Article {
     @Column(name = "title", length = 100)
     private String title;
 
-    @JsonManagedReference
-    @ManyToOne(fetch = FetchType.LAZY)
+
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "author_id")
-    @JsonIgnore
     public User author;
 
     @Column(name = "content")
