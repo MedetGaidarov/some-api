@@ -1,17 +1,12 @@
 package com.example.backendjavaapijob.infrastructure.utils;
 
 
-import com.example.backendjavaapijob.configuration.security.user.UserDetailsImpl;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
-@Component
 public class JwtTokenUtil {
 
     @Value("${jwt.secret}")
@@ -75,17 +70,6 @@ public class JwtTokenUtil {
         return claims.get("role", String.class);
     }
 
-    public String generateAccessToken(UserDetailsImpl profile) {
-        return Jwts.builder()
-                .setSubject(String.format("%s,%s", profile.getId(), profile.getEmail()))
-                .setIssuer(jwtIssuer)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(7))) // 1 week
-                .claim("email", profile.getEmail())
-                .claim("role", profile.getAuthorities().toString())
-                .signWith(SignatureAlgorithm.HS512, signingKey)
-                .compact();
-    }
 }
 
 
