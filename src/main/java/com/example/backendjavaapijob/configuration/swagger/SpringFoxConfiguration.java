@@ -4,7 +4,6 @@ package com.example.backendjavaapijob.configuration.swagger;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.*;
@@ -18,7 +17,6 @@ import java.util.List;
 
 @Configuration
 @EnableSwagger2
-@Import(BeanValidatorPluginsConfiguration.class)
 public class SpringFoxConfiguration {
 
     public static final String AUTHORIZATION_HEADER = "Authorization";
@@ -34,7 +32,7 @@ public class SpringFoxConfiguration {
                 .select()
                 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.any())
-                .build();
+                .build().pathMapping("/");
     }
 
     private ApiKey apiKey() {
