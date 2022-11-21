@@ -1,13 +1,10 @@
 package com.example.backendjavaapijob.ui.controller.auth;
 
 
-import com.example.backendjavaapijob.configuration.security.jwt.JwtTokenFilter;
 import com.example.backendjavaapijob.configuration.security.user.UserDetailsImpl;
 import com.example.backendjavaapijob.domain.user.model.User;
-import com.example.backendjavaapijob.domain.user.model.UserType;
 import com.example.backendjavaapijob.infrastructure.utils.JwtTokenUtil;
 import com.example.backendjavaapijob.ui.dto.auth.AuthRequestDto;
-import com.example.backendjavaapijob.ui.dto.auth.AuthResponseDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,14 +15,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("api/auth")

@@ -1,21 +1,22 @@
 package com.example.backendjavaapijob.configuration.security;
 
 import com.example.backendjavaapijob.configuration.security.filter.CustomAuthenticationFilter;
-import com.example.backendjavaapijob.configuration.security.user.CustomUserDetailService;
-import com.example.backendjavaapijob.configuration.security.user.authenticationProvider.CustomAuthenticationProvider;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.POST;
 
 
 @Configuration
@@ -30,7 +31,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
-    private final CustomUserDetailService userDetailService;
+
+    private final UserDetailsService userDetailService;
     private final BCryptPasswordEncoder passwordEncoder;
 
 
@@ -39,20 +41,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailService).passwordEncoder(passwordEncoder);
     }
 
-    @Override
-    public void configure(WebSecurity web) {
-        web.ignoring().antMatchers(
-                "/v2/api-docs",
-                "/configuration/ui",
-                "/swagger-resources",
-                "/configuration/security",
-                "/webjars/**",
-                "/swagger-resources/configuration/ui",
-                "/swagger-ui.html",
-                "/privacy-policy",
-                "/h2-console/**"
-        );
-    }
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -60,12 +49,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http = http.cors().and().csrf().disable();
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
+        http.formLogin();
         http.authorizeRequests()
-                .antMatchers("/auth/**").permitAll()
-                .antMatchers("/**").permitAll()
-//                .antMatchers("/beats/encrypted").permitAll()
-                .antMatchers("/demo/users/**").permitAll()
+                .antMatchers(GET, "api/user/**").hasAnyAuthority("ROLE_USER")
+                .antMatchers(POST,"api/user/save/**").hasAnyAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated();
 
         http.addFilter(new CustomAuthenticationFilter(authenticationManagerBean()));
