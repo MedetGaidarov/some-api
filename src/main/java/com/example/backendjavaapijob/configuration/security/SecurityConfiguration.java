@@ -1,6 +1,8 @@
 package com.example.backendjavaapijob.configuration.security;
 
-import com.example.backendjavaapijob.configuration.security.user.UserDetailServiceImpl;
+import com.example.backendjavaapijob.configuration.security.user.CustomUserDetailService;
+import com.example.backendjavaapijob.configuration.security.user.authenticationProvider.CustomAuthenticationProvider;
+import com.example.backendjavaapijob.infrastructure.utils.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -10,7 +12,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
 @EnableWebSecurity
@@ -22,7 +23,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private UserDetailServiceImpl userDetailService;
+    private CustomUserDetailService userDetailService;
+
+    @Autowired
+    private CustomAuthenticationProvider customAuthenticationProvider;
 
 
     // here authentication provider
@@ -32,6 +36,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailService);
+        auth.authenticationProvider(customAuthenticationProvider);
     }
 
 

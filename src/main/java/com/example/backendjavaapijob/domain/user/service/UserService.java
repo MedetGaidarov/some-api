@@ -12,4 +12,6 @@ public interface UserService {
     User save(User user);
     Optional<User> findById(Long id) throws NotFoundException;
     Optional<User> findByUsername(String username) throws NotFoundException;
+    Optional<User> findByEmail(String email);
+
 }

@@ -27,9 +27,15 @@ public class User {
     @Column(name = "username" , nullable = false, unique = true)
     private String username;
 
-    public User(String username)
+
+    @Column(name = "password")
+    private String password;
+
+
+    public User(String username, String password)
     {
         this.username = username;
+        this.password = password;
     }
 
     @ManyToMany
@@ -40,6 +46,7 @@ public class User {
             inverseJoinColumns = @JoinColumn(
                     name = "role_id", referencedColumnName = "id"))
     private Collection<Role> roles;
+
 
 
 }
