@@ -25,8 +25,10 @@ import static org.springframework.http.HttpMethod.POST;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-
-
+@EnableGlobalMethodSecurity(
+        prePostEnabled = true,
+        securedEnabled = true,
+        jsr250Enabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
@@ -54,12 +56,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         // Enable CORS and disable CSRF
         CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean());
-        customAuthenticationFilter.setFilterProcessesUrl("api/login");
         http = http.cors().and().csrf().disable();
         http.formLogin();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeRequests()
-                .antMatchers("api/login/**").permitAll()
+                .antMatchers("login").permitAll()
                 .antMatchers(GET, "api/user/**").hasAnyAuthority("ROLE_USER")
                 .antMatchers(POST, "api/user/**").hasAnyAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated();
