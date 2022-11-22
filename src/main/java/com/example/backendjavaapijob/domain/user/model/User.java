@@ -1,6 +1,7 @@
 package com.example.backendjavaapijob.domain.user.model;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,7 +39,9 @@ public class User {
         this.password = password;
     }
 
-    @ManyToMany(fetch=FetchType.EAGER)
+
+    @JsonManagedReference
+    @ManyToMany(fetch=FetchType.LAZY)
     @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn(

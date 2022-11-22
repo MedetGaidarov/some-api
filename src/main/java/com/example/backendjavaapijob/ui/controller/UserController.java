@@ -31,12 +31,9 @@ public class UserController {
     private UserMapper userMapper;
 
 
-    @PreAuthorize("hasRole('USER')")
     @PostMapping()
     public ResponseEntity<Object> createUser(@RequestBody UserDto userDto) {
         try {
-            String ss = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
-            System.out.println(ss);
             return ResponseEntity.ok(new DefaultResponseDto("SUCCESS", "User successfully created", userService.save(userMapper.toUser(userDto))));
         } catch (Exception e) {
             return ResponseEntity.ok(new DefaultResponseDto("FAULT", e.getMessage()));

@@ -9,7 +9,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class AuthRequestDto {
-    String email;
     String username;
     String password;
 }

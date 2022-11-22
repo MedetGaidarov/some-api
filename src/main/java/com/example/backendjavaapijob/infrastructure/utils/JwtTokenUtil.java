@@ -1,12 +1,22 @@
 package com.example.backendjavaapijob.infrastructure.utils;
 
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 
+import java.util.Collection;
+import java.util.Date;
+import java.util.stream.Collectors;
 
+@Component
 public class JwtTokenUtil {
 
     @Value("${jwt.secret}")
@@ -68,6 +78,27 @@ public class JwtTokenUtil {
                 .parseClaimsJws(token)
                 .getBody();
         return claims.get("role", String.class);
+    }
+
+    public String generateAccessToken(String username, Collection<? extends GrantedAuthority> authorities) {
+        Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
+        return JWT.create()
+                .withSubject(username)
+                .withExpiresAt(new Date(System.currentTimeMillis() + 40 * 60 * 1000))
+                .withIssuer(jwtIssuer)
+                .withClaim("roles", authorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
+                .sign(algorithm);
+
+    }
+
+    public String generateRefreshToken(String username) {
+        Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
+        return JWT.create()
+                .withSubject(username)
+                .withExpiresAt(new Date(System.currentTimeMillis() + 30 * 60 * 1000))
+                .withIssuer(jwtIssuer)
+                .sign(algorithm);
+
     }
 
 }
