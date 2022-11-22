@@ -1,5 +1,6 @@
 package com.example.backendjavaapijob.domain.user.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,8 @@ public class Role {
     private Long id;
 
     private String name;
+
+    @JsonBackReference
     @ManyToMany(mappedBy = "roles")
     private Collection<User> users;
 }

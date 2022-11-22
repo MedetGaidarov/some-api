@@ -1,15 +1,18 @@
-package com.example.backendjavaapijob.domain.article.service;
+package com.example.backendjavaapijob.domain.article.service.impl;
 
 
 import com.example.backendjavaapijob.domain.article.model.Article;
 import com.example.backendjavaapijob.domain.article.repository.ArticleRepository;
+import com.example.backendjavaapijob.domain.article.service.ArticleService;
 import com.example.backendjavaapijob.domain.user.model.User;
 import com.example.backendjavaapijob.domain.user.service.UserService;
-import com.example.backendjavaapijob.infrastructure.utils.DateUtil;
 import com.example.backendjavaapijob.ui.dto.article.request.ArticleRequest;
 import com.example.backendjavaapijob.ui.dto.article.response.ArticleDto;
 import com.example.backendjavaapijob.ui.dto.mapper.ArticleMapper;
 import javassist.NotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -40,20 +43,31 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<Article> findAll() {
-        return articleRepository.findAll();
+    public Page<Article> findAll(Pageable pageable) {
+
+        Page<Article> articles = articleRepository.findAll(pageable);
+        return articles;
     }
 
     @Override
     public ArticleDto createArticle(ArticleRequest articleRequest) throws NotFoundException {
 
-        Optional<User> author = userService.findByUsername("mgaidarov");
+        String currentUser = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
+        Optional<User> author = userService.findByUsername(currentUser);
         Article article = new Article();
         author.ifPresent(article::setAuthor);
         article.setContent(articleRequest.getContent());
         article.setTitle(articleRequest.getTitle());
-        article.setPublish_date(DateUtil.parseDateToIso(new Date()));
+        article.setPublish_date(new Date());
+
         return articleMapper.toArticleDto(articleRepository.save(article));
     }
+
+    @Override
+    public Optional<Article> getArticleByDate(Date date) {
+        return articleRepository.getsArticleByPublish_date(date);
+    }
+
+
 }

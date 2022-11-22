@@ -1,7 +1,6 @@
 package com.example.backendjavaapijob.ui.controller;
 
 
-import com.example.backendjavaapijob.domain.user.model.User;
 import com.example.backendjavaapijob.domain.user.model.UserType;
 import com.example.backendjavaapijob.domain.user.service.UserService;
 import com.example.backendjavaapijob.ui.dto.DefaultResponseDto;
@@ -12,6 +11,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
