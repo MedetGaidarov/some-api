@@ -30,7 +30,6 @@ public class UserController {
     @Autowired
     private UserMapper userMapper;
 
-
     @PostMapping()
     public ResponseEntity<Object> createUser(@RequestBody UserDto userDto) {
         try {

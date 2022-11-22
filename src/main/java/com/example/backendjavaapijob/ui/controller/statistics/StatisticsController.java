@@ -20,11 +20,6 @@ public class StatisticsController {
     private ArticleStatisticsService articleStatisticsService;
 
 
-    @GetMapping("article-get")
-    public ResponseEntity<Object> articleGet()
-    {
-        return ResponseEntity.ok(articleStatisticsService.articleGet());
-    }
     @GetMapping("article-count")
     public ResponseEntity<Object> articleCount(@RequestParam(required = false) Long days) {
         try {
