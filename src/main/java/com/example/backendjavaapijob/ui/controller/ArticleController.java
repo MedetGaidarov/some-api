@@ -2,12 +2,14 @@ package com.example.backendjavaapijob.ui.controller;
 
 
 import com.example.backendjavaapijob.domain.article.service.ArticleService;
+import com.example.backendjavaapijob.domain.user.model.User;
 import com.example.backendjavaapijob.ui.dto.DefaultResponseDto;
 import com.example.backendjavaapijob.ui.dto.article.request.ArticleRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

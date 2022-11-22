@@ -41,12 +41,14 @@ public class AuthenticationController {
                     type, authRequestDto.getUsername(), authRequestDto.getPassword());
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            type,
+                            authRequestDto.getUsername(),
                             new User(authRequestDto.getUsername(), authRequestDto.getPassword())
                     )
             );
 
+
             String principal = (String) authentication.getPrincipal();
+
             return ResponseEntity.ok()
                     .header(
                             HttpHeaders.AUTHORIZATION,

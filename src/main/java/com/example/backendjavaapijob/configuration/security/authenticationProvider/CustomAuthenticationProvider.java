@@ -10,9 +10,14 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 
 @Component
@@ -43,17 +48,17 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
                         )
                 );
 
-        Boolean bo = passwordEncoder.matches("Areke123", fetchedUser.getPassword());
-
-
         if (!passwordEncoder.matches(user.getPassword(), fetchedUser.getPassword())) {
             throw new IllegalArgumentException("Password does not match");
         }
         logger.info("CustomAuthenticationProvider: fetched user {}", user.getUsername());
         try {
             String principal = (String) authentication.getPrincipal();
-
-            return new UsernamePasswordAuthenticationToken(principal, user.getPassword(), authentication.getAuthorities());
+            Collection<GrantedAuthority> authorities = new ArrayList<>();
+            fetchedUser.getRoles().forEach(role -> {
+                authorities.add(new SimpleGrantedAuthority(role.getName()));
+            });
+            return new UsernamePasswordAuthenticationToken(principal, user.getPassword(), authorities);
         } catch (BadCredentialsException e) {
             logger.error("Caught login exception: {}", e.getMessage());
         }
