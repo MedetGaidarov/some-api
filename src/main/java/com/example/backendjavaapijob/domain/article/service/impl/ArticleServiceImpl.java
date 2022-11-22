@@ -1,11 +1,11 @@
-package com.example.backendjavaapijob.domain.article.service;
+package com.example.backendjavaapijob.domain.article.service.impl;
 
 
 import com.example.backendjavaapijob.domain.article.model.Article;
 import com.example.backendjavaapijob.domain.article.repository.ArticleRepository;
+import com.example.backendjavaapijob.domain.article.service.ArticleService;
 import com.example.backendjavaapijob.domain.user.model.User;
 import com.example.backendjavaapijob.domain.user.service.UserService;
-import com.example.backendjavaapijob.infrastructure.utils.DateUtil;
 import com.example.backendjavaapijob.ui.dto.article.request.ArticleRequest;
 import com.example.backendjavaapijob.ui.dto.article.response.ArticleDto;
 import com.example.backendjavaapijob.ui.dto.mapper.ArticleMapper;
@@ -42,7 +42,9 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public List<Article> findAll() {
-        return articleRepository.findAll();
+        List<Article> articles = articleRepository.findAll();
+
+        return articles;
     }
 
     @Override
@@ -55,7 +57,15 @@ public class ArticleServiceImpl implements ArticleService {
         author.ifPresent(article::setAuthor);
         article.setContent(articleRequest.getContent());
         article.setTitle(articleRequest.getTitle());
-        article.setPublish_date(DateUtil.parseDateToIso(new Date()));
+        article.setPublish_date(new Date());
+
         return articleMapper.toArticleDto(articleRepository.save(article));
     }
+
+    @Override
+    public Optional<Article> getArticleByDate(Date date) {
+        return articleRepository.getsArticleByPublish_date(date);
+    }
+
+
 }

@@ -6,6 +6,7 @@ import com.example.backendjavaapijob.ui.dto.article.request.ArticleRequest;
 import com.example.backendjavaapijob.ui.dto.article.response.ArticleDto;
 import javassist.NotFoundException;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,6 +16,5 @@ public interface ArticleService {
     List<Article> findAll();
     ArticleDto createArticle(ArticleRequest articleRequest) throws NotFoundException;
 
-
-
+    Optional<Article> getArticleByDate(Date date);
 }
