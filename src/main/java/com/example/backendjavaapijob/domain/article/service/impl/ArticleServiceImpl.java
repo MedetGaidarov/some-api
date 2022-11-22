@@ -10,6 +10,8 @@ import com.example.backendjavaapijob.ui.dto.article.request.ArticleRequest;
 import com.example.backendjavaapijob.ui.dto.article.response.ArticleDto;
 import com.example.backendjavaapijob.ui.dto.mapper.ArticleMapper;
 import javassist.NotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -41,9 +43,9 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<Article> findAll() {
-        List<Article> articles = articleRepository.findAll();
+    public Page<Article> findAll(Pageable pageable) {
 
+        Page<Article> articles = articleRepository.findAll(pageable);
         return articles;
     }
 
