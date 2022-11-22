@@ -30,58 +30,9 @@ public class JwtTokenUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(JwtTokenUtil.class);
 
-    public boolean validate(String token) {
-        try {
-            Jwts.parser().setSigningKey(signingKey).parseClaimsJws(token);
-            return true;
-        } catch (SignatureException e) {
-            logger.error("Invalid JWT signature - {}", e.getMessage());
-        } catch (MalformedJwtException e) {
-            logger.error("Invalid JWT token - {}", e.getMessage());
-        } catch (ExpiredJwtException e) {
-            logger.error("Expired JWT token - {}", e.getMessage());
-        } catch (UnsupportedJwtException e) {
-            logger.error("Unsupported JWT token - {}", e.getMessage());
-        } catch (IllegalArgumentException e) {
-            logger.error("JWT token string is empty or corrupted any other way - {}", e.getMessage());
-        }
-        return false;
-    }
-
-    public String getEmail(String token) {
-        Claims claims = Jwts.parser()
-                .setSigningKey(signingKey)
-                .parseClaimsJws(token)
-                .getBody();
-        return claims.get("email", String.class);
-    }
-
-    public String getRefreshEmail(String token) {
-        Claims claims = Jwts.parser()
-                .setSigningKey(refreshSigningKey)
-                .parseClaimsJws(token)
-                .getBody();
-        return claims.get("email", String.class);
-    }
-
-    public String getRole(String token) {
-        Claims claims = Jwts.parser()
-                .setSigningKey(signingKey)
-                .parseClaimsJws(token)
-                .getBody();
-        return claims.get("role", String.class);
-    }
-
-    public String getRefreshRole(String token) {
-        Claims claims = Jwts.parser()
-                .setSigningKey(refreshSigningKey)
-                .parseClaimsJws(token)
-                .getBody();
-        return claims.get("role", String.class);
-    }
 
     public String generateAccessToken(String username, Collection<? extends GrantedAuthority> authorities) {
-        Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
+        Algorithm algorithm = Algorithm.HMAC256(signingKey.getBytes());
         return JWT.create()
                 .withSubject(username)
                 .withExpiresAt(new Date(System.currentTimeMillis() + 40 * 60 * 1000))
@@ -92,7 +43,7 @@ public class JwtTokenUtil {
     }
 
     public String generateRefreshToken(String username) {
-        Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
+        Algorithm algorithm = Algorithm.HMAC256(refreshSigningKey.getBytes());
         return JWT.create()
                 .withSubject(username)
                 .withExpiresAt(new Date(System.currentTimeMillis() + 30 * 60 * 1000))

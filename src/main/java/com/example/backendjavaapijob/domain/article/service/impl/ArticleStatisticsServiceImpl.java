@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.Date;
-import java.util.Optional;
 
 
 @Service
@@ -20,20 +19,13 @@ public class ArticleStatisticsServiceImpl implements ArticleStatisticsService {
     private ArticleRepository articleRepository;
 
 
-
-
     @Override
     public Long articleCountByDays(Long days) {
         Date currentDate = new Date();
         Date beforeDate = new DateTime(currentDate).minusDays(300).toDate();
 
-        Long article = articleRepository.countArticlesBetweenCurrentDateAndBeforeDate(currentDate, beforeDate);
-        return article;
+        return articleRepository.countArticlesBetweenCurrentDateAndBeforeDate(currentDate, beforeDate);
     }
 
-    @Override
-    public Optional<Article> articleGet() {
-        Optional<Article> article = articleRepository.customFindById();
-        return  article;
-    }
+
 }
